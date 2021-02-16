@@ -3,6 +3,10 @@
 .DS_Store
 *.hprof
 
+# API
+google-services.json
+GoogleService-Info.plist
+
 # Xcode
 #
 build/
