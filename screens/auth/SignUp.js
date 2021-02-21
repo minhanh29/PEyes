@@ -119,7 +119,6 @@ class SignUp extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	isLoggedIn: state.auth.isLoggedIn,
 	visible: state.loading.visible,
 })
 

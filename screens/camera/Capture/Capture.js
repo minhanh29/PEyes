@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import { View, TouchableOpacity, Image, Alert } from 'react-native'
-import { connect } from 'react-redux'
 import { RNCamera } from 'react-native-camera'
-import ImagePicker from 'react-native-image-crop-picker'
-
-import { processImg } from '../../api/TextRecognition'
-import Loading from '../../Loading'
-import { loading } from '../../../redux/actionCreators'
 
 import styles from './CaptureStyles'
 import shutter from '../../../res/shutter.png'
@@ -25,34 +19,6 @@ class Capture extends Component {
 		this.setState({ camera: ref })
 	}
 
-	// use the api to get image and move to the next screen
-	convertImg = async (path) => {
-		this.props.startLoading()
-		if (!path)
-		{
-			Alert.alert("Access Error", "Cannot access your image!")
-			this.props.stopLoading()
-			return
-		}
-
-		try {
-			const process = await processImg(path)
-
-			// clean temp images
-			ImagePicker.clean()
-				.then(() => console.log('cleaned all temp images'))
-				.catch((e) => console.log(e))
-
-			console.log('Finished process file', process.text)
-
-			this.props.stopLoading()
-			this.props.navigation.navigate('Preview', { process })
-		} catch (e) {
-			console.log(e);
-			Alert.alert(e.message ? e.message : e);
-		}
-	}
-
 	// take photos
 	capture = async () => {
 		if (this.state.camera) {
@@ -63,14 +29,10 @@ class Capture extends Component {
 
 			try {
 				const data = await this.state.camera.takePictureAsync(options);
-				const image = await ImagePicker.openCropper({
+				this.props.navigation.navigate('Cropper', {
+					isCap: true,
 					path: data.uri,
-					freeStyleCropEnabled: true,
 				})
-
-				// convert image to text
-				this.convertImg(image.path)
-
 			} catch (error) {
 				Alert.alert(error.message ? error.message : error);
 			}
@@ -93,29 +55,13 @@ class Capture extends Component {
 	}
 
 	pickImg = async () => {
-		try {
-			const image = await ImagePicker.openPicker({
-				cropping: true,
-				freeStyleCropEnabled: true,
-				sortOrder: 'none',
-			})
-
-			// convert image to text
-			this.convertImg(image.path)
-		} catch (e) {
-			console.log(e);
-			Alert.alert(e.message ? e.message : e);
-		}
+		this.props.navigation.navigate('Cropper', {
+			isCap: false,
+			path: null,
+		})
 	}
 
 	render() {
-		if (this.props.visible)
-		{
-			return (
-				<Loading text="Detecting text..." visible={this.props.visible} />
-			)
-		}
-
 		return (
 			<View style={styles.container}>
 				<RNCamera
@@ -157,13 +103,4 @@ class Capture extends Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
-	visible: state.loading.visible,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-	startLoading: () => dispatch(loading(true)),
-	stopLoading: () => dispatch(loading(false)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Capture)
+export default Capture

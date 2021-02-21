@@ -5,7 +5,7 @@ import { Alert } from 'react-native'
 export const processImg = async (path) => {
 	// fake
 	console.log("Converting Image ", path)
-	// await new Promise(something => setTimeout(something, 2000))
+	await new Promise(something => setTimeout(something, 2000))
 	return {
 		text: "Minh anh is here\nHello there orem ipsum dolor \nsit amet, consectetur adipiscing elit, \nsed do eiusmod tempor incididunt \nut labore et dolore magna \naliqua. Ut enim ad minim veniam, \nquis nostrud exercitation ullamco laboris \nnisi ut aliquip ex ea \ncommodo consequat. Duis aute irure\ndolor in reprehenderit in voluptate\n velit esse cillum dolore \neu fugiat nulla pariatur. Excepteur \nsint occaecat cupidatat non proident, sunt in\n culpa qui officia \ndeserunt mollit anim id est laborum.",
 		blocks: [

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux'
-// import { firestoreReducer } from 'redux-firestore'
+import { firestoreReducer } from 'redux-firestore'
+import { firebaseReducer } from 'react-redux-firebase'
 
-import authReducer from './authReducer'
 import loadingReducer from './loadingReducer'
 
 const rootReducer = combineReducers({
-	auth: authReducer,
 	loading: loadingReducer,
-	// firestore: firestoreReducer,
+	firestore: firestoreReducer,
+	firebase: firebaseReducer,
 })
 
 export default rootReducer

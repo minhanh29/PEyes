@@ -37,12 +37,6 @@ class LogIn extends Component {
 			username: this.state.username,
 			password: this.state.password,
 		})
-		// auth().onAuthStateChanged(user => {
-		// 	console.log(user)
-		// 	if (user) {
-
-		// 	}
-		// })
 	}
 
 	signUp = () => {
@@ -116,7 +110,6 @@ class LogIn extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	isLoggedIn: state.auth.isLoggedIn,
 	visible: state.loading.visible,
 })
 

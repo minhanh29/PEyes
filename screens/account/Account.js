@@ -12,7 +12,7 @@ class Account extends Component {
 	render() {
 		return (
 			<View>
-				<Text>Account</Text>
+				<Text>Minh Anh Account</Text>
 
 				<TouchableOpacity onPress={this.signOut}>
 					<Text>Sign Out</Text>
