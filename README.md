@@ -26,7 +26,6 @@ react-native run-android
 ## Functionalities
 ### Authentication
 You have to create an account before using PEyes
-
 <img src="screenshots/auth.png" alt="authentication" width='300' />
 <img src="screenshots/account.png" alt="account screen" width='300' />
 
@@ -43,11 +42,9 @@ The captured or chosen image can be cropped, rotated, or scaled to give better t
 
 ### Editing and Saving
 The generated text can be manually editted and saved as a Word Document
-
 <img src="screenshots/edit.png" alt="edit" width='300' />
 <img src="screenshots/saving.png" alt="saving" width='300' />
 
 ### Email Sending
 The Word document can be sent to your registed email so that you can download it frorm your PC.
-
 <img src="screenshots/email.png" alt="email" width='500'/>
