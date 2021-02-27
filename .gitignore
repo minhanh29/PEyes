@@ -2,6 +2,12 @@
 #
 .DS_Store
 *.hprof
+.eslintrc.js
+.buckconfig
+.flowconfig
+.prettierrc.js
+.watchmanconfig
+__tests__
 
 # API
 google-services.json
