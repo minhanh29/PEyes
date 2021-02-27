@@ -33,7 +33,13 @@ const ChildNavigator = (props) => (
 				headerTitle: 'Text Preview',
 			}}
 		/>
-		<Stack.Screen name="Saving" component={Saving} />
+		<Stack.Screen
+			name="Saving"
+			component={Saving}
+			options={{
+				headerShown: false,
+			}}
+		/>
 	</Stack.Navigator>
 )
 

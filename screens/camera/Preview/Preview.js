@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { ScrollView, View, Text, TextInput, TouchableOpacity } from 'react-native'
 import { HeaderBackButton } from '@react-navigation/stack'
+import { Button } from 'react-native-paper'
 
 import styles from './PreviewStyles'
-import { saveToFirestore, updateContent } from '../../../redux/actionCreators'
 
 class Preview extends Component {
 	constructor(props) {
@@ -13,7 +12,7 @@ class Preview extends Component {
 		// get text from Capture screen
 		const process = props.route.params.process;
 		this.state = {
-			text: process ? process.text : "Text Detection Failed",
+			text: process ? process.text : "No Text Found",
 			setOp: false, // check setting naviatgion
 		}
 	}
@@ -27,11 +26,12 @@ class Preview extends Component {
 		// set header buttons
 		this.props.navigation.setOptions({
 			headerRight: () => (
-				<TouchableOpacity onPress={this.saveDoc}>
-					<View style={styles.btnSave}>
-						<Text style={styles.saveText}>Save</Text>
-					</View>
-				</TouchableOpacity>
+				<Button style={styles.btnSave} mode='text' color='#ffc239' onPress={this.saveDoc}>
+					Save
+					{/* <View style={styles.btnSave}> */}
+					{/* 	<Text style={styles.saveText}>Save</Text> */}
+					{/* </View> */}
+				</Button>
 			),
 			headerLeft: () => (
 				<HeaderBackButton
@@ -44,7 +44,7 @@ class Preview extends Component {
 	}
 
 	goBack = () => {
-		this.props.navigation.navigate('Capture')
+		this.props.navigation.goBack()
 	}
 
 	// save document to database
@@ -52,28 +52,12 @@ class Preview extends Component {
 		if (!process)
 			return
 
-		if (this.props.route.params.isUpdate)
-		{
-			// update an existing document
-			this.props.updateContent({
-				id: this.props.route.params.id,
-				content: this.state.text,
-			})
-		} else {
-			// create new document
-			const fileName = 'PEyes-Generated-Word-' + Date.now() + '.docx';
-
-			// save to firestore
-			this.props.saveToFirestore({
-				uid: this.props.uid,
-				title: fileName,
-				content: this.state.text,
-			})
-		}
-
 		// move to saving screen
 		this.props.navigation.navigate('Saving', {
 			id: this.props.route.params.id,
+			isUpdate: this.props.route.params.isUpdate,
+			title: this.props.route.params.title,
+			content: this.state.text,
 		})
 	}
 
@@ -86,20 +70,11 @@ class Preview extends Component {
 					multiline={true}
 					autoFocus={true}
 					style={styles.editField}
+					selectionColor='#eda600'
 				/>
 			</ScrollView>
 		)
 	}
 }
 
-const mapStateToProps = (state) => ({
-	uid: state.firebase.auth.uid,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-	saveToFirestore: (item) => dispatch(saveToFirestore(item)),
-	updateContent: (item) => dispatch(updateContent(item))
-})
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Preview)
+export default Preview

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableOpacity,
 Image, ImageBackground, Alert } from 'react-native'
-// import auth from '@react-native-firebase/auth'
 import { connect } from 'react-redux'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 

@@ -1,27 +1,29 @@
 import React, { Component } from 'react'
-import { View, FlatList, Alert } from 'react-native'
+import { View, FlatList, Alert, Text, Image } from 'react-native'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import firestore from '@react-native-firebase/firestore'
+import { Appbar } from 'react-native-paper'
 
 import Card from './Card'
 import styles from './GalleryStyles'
+import logo from '../../res/logoWhite.png'
 
 class Gallery extends Component {
 	renderItem = ({ item }) => (
 		<Card {...item} />
 	)
 
-	goToPreview = async (id) => {
+	goToPreview = (id) => {
 		try {
 			// get the doc content with its id  (not uid)
-			const doc = await firestore().collection('docs').doc(id).get();
+			const doc = this.props.docs.filter(doc => doc.id == id).pop()
 			console.log("Doc", doc)
 			this.props.navigation.navigate('Preview', {
 				id,
 				isUpdate: true,
-				process: { text: doc._data.content }
+				title: doc.title,
+				process: { text: doc.content }
 			})
 		} catch (e) {
 			Alert.alert("Error", e.message)
@@ -30,6 +32,7 @@ class Gallery extends Component {
 
 	render() {
 		const { docs } = this.props;
+		console.log("Firestore Doc", docs)
 		const data = docs ? docs.map(doc => ({
 			id: doc.id,
 			title: doc.title,
@@ -37,8 +40,18 @@ class Gallery extends Component {
 			goToPreview: this.goToPreview,
 		})) : []
 
+		const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
+
 		return (
 			<View style={styles.container}>
+				<View style={styles.header}>
+					<Image source={logo} style={styles.logo} />
+					<Appbar.Content title="PEyes" subtitle="CS Zone" color='white' />
+
+					<Appbar.Action icon="magnify" color='white' onPress={() => {}} />
+					<Appbar.Action icon={MORE_ICON} color='white' onPress={() => {}} />
+				</View>
+
 				<FlatList
 					data={data}
 					renderItem={this.renderItem}

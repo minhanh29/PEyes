@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 10,
 		paddingHorizontal: 15,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
 	},
 	editField: {
 		fontSize: 15,
@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
 		lineHeight: 30,
 	},
 	btnSave: {
-		marginRight: 25,
+		marginRight: 10,
+		fontWeight: '500',
 	},
 	saveText: {
 		color: 'rgba(255, 194, 57, 1)',

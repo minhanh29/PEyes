@@ -49,7 +49,7 @@ class Cropper extends Component {
 				.then(() => console.log('cleaned all temp images'))
 				.catch((e) => console.log(e))
 
-			console.log('Finished process file', process.text)
+			// console.log('Finished process file', process.text)
 
 			this.props.stopLoading()
 
@@ -58,7 +58,7 @@ class Cropper extends Component {
 			await this.props.navigation.dispatch(popAction)
 
 			// move to preview screen
-			this.props.navigation.navigate('Preview', { process })
+			this.props.navigation.navigate('Preview', { process, isUpdate: false })
 		} catch (e) {
 			console.log(e);
 			Alert.alert(e.message ? e.message : e);

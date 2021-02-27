@@ -145,12 +145,7 @@ export const saveToFirestore = ({ uid, title, content }) => (dispatch, getState,
 	})
 }
 
-export const updateTitle = ({ id, title }) => (dispatch, getState, getFirebase) => {
+export const updateDoc = ({ id, title, content }) => (dispatch, getState, getFirebase) => {
 	firestore().collection('docs')
 		.doc(id).update({ title, content, date: new Date() })
-}
-
-export const updateContent = ({ id, content }) => (dispatch, getState, getFirebase) => {
-	firestore().collection('docs')
-		.doc(id).update({ content, date: new Date() })
 }

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 	btnContainer: {
 		marginLeft: 20,
 		marginTop: 15,
-		marginBottom: 5,
+		marginBottom: 6,
 	},
 	container: {
 		width: WIDTH - 40,
@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
 		shadowColor: 'gray',
 		shadowOffset: {
 			width: 0,
-			height: 1,
+			height: 2,
 		},
 		shadowOpacity: 0.2,
-		shadowRadius: 1.5,
-		elevation: 3,
+		shadowRadius: 2.0,
+		elevation: 4,
 		padding: 15,
 		display: 'flex',
 		flexDirection: 'row',
