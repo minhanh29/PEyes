@@ -27,8 +27,8 @@ react-native run-android
 ### Authentication
 You have to create an account before using PEyes
 
-<img src="screenshots/auth.png" alt="authentication" width='500' />
-<img src="screenshots/account.png" alt="account screen" width='500' />
+<img src="screenshots/auth.png" alt="authentication" width='300' />
+<img src="screenshots/account.png" alt="account screen" width='300' />
 
 ### Image Capturing
 A fully functioning camera to capture real time images.  
