@@ -1,4 +1,4 @@
-# PEyes
+# PEyes - Text Recognition App
 Author: *Minh Anh Nguyen*  
 A React Native project that perfroms text detection on images using Cloud Vision API. 
 
