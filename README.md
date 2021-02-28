@@ -29,16 +29,12 @@ You have to create an account before using PEyes
 <img src="screenshots/auth.png" alt="authentication" width='300' />
 <img src="screenshots/account.png" alt="account screen" width='298' />
 
-### Image Capturing
+### Image Capturing and Cropping
 A fully functioning camera to capture real time images.  
-You can also choose an image from your gallery
-
-<img src="screenshots/camera.png" alt="camera" width='350' />
-
-### Image Cropping
-The captured or chosen image can be cropped, rotated, or scaled to give better text detection performance.
-
-<img src="screenshots/crop.png" alt="crop" width='350'/>
+Moreover, you can also choose an image from your gallery.  
+The captured or chosen image can be cropped, rotated, or scaled to give better text detection performance.  
+<img src="screenshots/camera.png" alt="camera" width='300' />
+<img src="screenshots/crop.png" alt="crop" width='300'/>
 
 ### Editing and Saving
 The generated text can be manually editted and saved as a Word Document  
