@@ -149,3 +149,10 @@ export const updateDoc = ({ id, title, content }) => (dispatch, getState, getFir
 	firestore().collection('docs')
 		.doc(id).update({ title, content, date: new Date() })
 }
+
+// change password
+export const reauthenticate = (currentPassword) => (dispatch, getState, getFirebase) => {
+	var user = auth().currentUser;
+	var cred = getFirebase().auth.EmailAuthProvider.credential(user.email, currentPassword);
+	return user.reauthenticateWithCredential(cred);
+}

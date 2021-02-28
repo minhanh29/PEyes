@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 		left: 0,
 	},
 	inforContainer: {
-		marginTop: 110,
+		marginTop: 100,
 		width: '80%',
 	},
 	cardContainer: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 	},
 	divider: {
 		width: '100%',
-		marginVertical: 20,
+		marginVertical: 15,
 		height: 1,
 		backgroundColor: '#e6e6e6',
 	}

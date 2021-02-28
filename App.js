@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import { reduxFirestore, createFirestoreInstance, getFirestore } from 'redux-firestore'
+import { reduxFirestore, createFirestoreInstance } from 'redux-firestore'
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 import firebase from '@react-native-firebase/app'
 import firestore from '@react-native-firebase/firestore'

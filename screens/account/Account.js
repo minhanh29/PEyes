@@ -29,6 +29,18 @@ const Item = ({ icon, color, title, callback }) => (
 )
 
 class Account extends Component {
+	updateEmail = () => {
+		this.props.navigation.navigate('UpdateEmail')
+	}
+
+	changePass = () => {
+		this.props.navigation.navigate('ChangePass')
+	}
+
+	showAbout = () => {
+		this.props.navigation.navigate('About')
+	}
+
 	signOut = () => {
 		this.props.signOut()
 	}
@@ -62,21 +74,21 @@ class Account extends Component {
 								icon='email-sync'
 								color='#74c23d'
 								title='Update Default Email'
-								callback={() => {}}
+								callback={this.updateEmail}
 							/>
 							<View style={styles.divider}></View>
 							<Item
 								icon='form-textbox-password'
 								color='#e82715'
 								title='Change Password'
-								callback={() => {}}
+								callback={this.changePass}
 							/>
 							<View style={styles.divider}></View>
 							<Item
 								icon='information-outline'
 								color='#ed8700'
 								title='About PEyes'
-								callback={() => {}}
+								callback={this.showAbout}
 							/>
 							<View style={styles.divider}></View>
 							<Item

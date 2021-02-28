@@ -8,6 +8,12 @@ const styles = StyleSheet.create({
 	btnBack: {
 		width: 80,
 	},
+	textTitle: {
+		color: 'white',
+		alignSelf: 'center',
+		fontSize: 20,
+		fontWeight: 'bold',
+	},
 	formContainer: {
 		backgroundColor: 'white',
 		borderRadius: 15,
@@ -21,24 +27,11 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		marginVertical: 20,
 	},
-	textDate: {
-		color: 'white',
-		alignSelf: 'center',
-		fontSize: 16,
-	},
 	inputContainer: {
 		marginHorizontal: 7,
+		marginTop: 10,
 	},
-	checkBoxContainer: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		marginTop: 15,
-	},
-	checkBoxText: {
-		fontSize: 16,
-	},
-	btnConfirm: {
+	btnSubmit: {
 		marginTop: 20,
 		marginHorizontal: 25,
 		borderRadius: 20,

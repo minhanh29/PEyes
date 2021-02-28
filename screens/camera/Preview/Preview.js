@@ -30,13 +30,6 @@ class Preview extends Component {
 					Save
 				</Button>
 			),
-			headerLeft: () => (
-				<HeaderBackButton
-					onPress={this.goBack}
-					tintColor='rgba(255, 194, 57, 1)'
-					pressColorAndroid='rgba(200, 194, 57, 1)'
-				/>
-			)
 		})
 	}
 
