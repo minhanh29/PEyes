@@ -28,9 +28,6 @@ class Preview extends Component {
 			headerRight: () => (
 				<Button style={styles.btnSave} mode='text' color='#ffc239' onPress={this.saveDoc}>
 					Save
-					{/* <View style={styles.btnSave}> */}
-					{/* 	<Text style={styles.saveText}>Save</Text> */}
-					{/* </View> */}
 				</Button>
 			),
 			headerLeft: () => (

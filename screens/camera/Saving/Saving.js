@@ -46,7 +46,7 @@ class Saving extends Component {
 			this.props.saveToFirestore({
 				uid: this.props.uid,
 				title: this.state.title,
-				content: this.state.text,
+				content: this.state.content,
 			})
 			console.log('new doc saved')
 		}
