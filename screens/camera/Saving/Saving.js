@@ -24,7 +24,7 @@ class Saving extends Component {
 		// receive email from firestore
 		const user = this.props.user;
 		let email = ''
-		if (user)
+		if (user && user.length > 0)
 			email = user[0].email
 
 		this.state = {
@@ -149,7 +149,8 @@ class Saving extends Component {
 
 	handleConfirm = () => {
 		// save document
-		this.saveDoc()
+		if (this.state.onGallery)
+			this.saveDoc()
 
 		// send email is checked
 		if (this.state.isMailing)

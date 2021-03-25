@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, TouchableOpacity, Image } from 'react-native'
-import { Avatar, Button, Divider } from 'react-native-paper'
+import { Alert, View, ScrollView, Text, TouchableOpacity, Image } from 'react-native'
+import { Avatar, Button } from 'react-native-paper'
 import { connect } from 'react-redux'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -45,6 +45,10 @@ class Account extends Component {
 		this.props.signOut()
 	}
 
+	upgrade = () => {
+		Alert.alert("Coming soon", "Feature not available yet!")
+	}
+
 	render() {
 		const { auth } = this.props;
 		console.log(auth);
@@ -62,7 +66,7 @@ class Account extends Component {
 							<Button
 								mode='contained'
 								dark={true}
-								onPress={() => {}}
+								onPress={this.upgrade}
 								style={styles.btnUpgrade}
 							>Upgrade</Button>
 						</View>

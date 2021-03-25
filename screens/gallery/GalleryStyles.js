@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontWeight: 'bold',
 		fontSize: 20,
+	},
+	searchbar: {
+		width: '60%',
+		elevation: 0,
 	}
 })
 

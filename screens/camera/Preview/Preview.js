@@ -48,12 +48,6 @@ class Preview extends Component {
 			content: this.state.text,
 		})
 		this.props.navigation.navigate('Saving')
-			// id: this.props.id,
-			// isUpdate: this.props.isUpdate,
-			// title: this.props.title,
-			// content: this.state.text,
-			// imgPath: this.props.imgPath,
-		// })
 	}
 
 	render() {

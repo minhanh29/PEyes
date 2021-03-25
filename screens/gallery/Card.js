@@ -17,6 +17,7 @@ class Card extends Component {
 		if (this.props.isDeleted && this.state.isChecked)
 		{
 			this.props.deleteMe(this.props.id)
+			this.setState({isChecked: false})
 		}
 	}
 
@@ -66,7 +67,7 @@ class Card extends Component {
 				<TouchableOpacity style={styles.btnContainer}
 					onPress={this.props.selection ? this.toggleCheck : this.openFile}
 					onLongPress={this.toggleSelect}
-					delayLongPress={1000}
+					delayLongPress={700}
 				>
 					<View style={styles.cardContainer} width={WIDTH - pad}>
 						<Image source={word} style={styles.iconImg} />

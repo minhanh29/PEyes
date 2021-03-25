@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { View, FlatList, Alert, Text, Image } from 'react-native'
+import { View, FlatList, Alert, Image  } from 'react-native'
 import { firestoreConnect } from 'react-redux-firebase'
 import firestore from '@react-native-firebase/firestore'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Appbar } from 'react-native-paper'
+import { Appbar, Searchbar } from 'react-native-paper'
 
 import { createDoc } from '../../redux/actionCreators'
 
@@ -17,11 +17,18 @@ class Gallery extends Component {
 		selection: false,
 		isDeleted: false,
 		selectCount: 0,
+		searching: false,
+		query: '',
 	}
 
 	toggleSelection = () => {
+		let count = this.state.selectCount
+		if (this.state.selection)
+			count = 0;
+
 		this.setState(prev => ({
 			selection: !prev.selection,
+			selectCount: count,
 		}))
 	}
 
@@ -34,7 +41,7 @@ class Gallery extends Component {
 
 	deselectItem = () => {
 		const count = this.state.selectCount - 1;
-		if (count === 0)
+		if (count <= 0)
 			this.resetSelection()
 		else
 			this.setState({ selectCount: count })
@@ -90,19 +97,38 @@ class Gallery extends Component {
 		}
 	}
 
+	toggleSearch = () => {
+		this.setState(prev => ({
+			searching: !prev.searching,
+			query: '',
+		}))
+	}
+
 	render() {
 		const { docs } = this.props;
-		const data = docs ? docs.map(doc => ({
+		let data = docs ? docs.map(doc => ({
 			id: doc.id,
 			title: doc.title,
 			date: doc.date.toDate().toLocaleString(),
 			goToPreview: this.goToPreview,
 		})) : []
 
+		// search bar
+		if (this.state.searching)
+		{
+			const query = this.state.query.toUpperCase()
+			data = data.filter(item => {
+				const title = item.title.toUpperCase()
+				if (title.indexOf(query) > -1)
+					console.log("Got", title)
+				return title.indexOf(query) > -1
+			})
+		}
+
 		const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
 		// detetion
-		const disableDelete = this.state.selectCount === 0;
+		const disableDelete = this.state.selectCount <= 0;
 		console.log("count", this.state.selectCount)
 
 		return (
@@ -110,14 +136,21 @@ class Gallery extends Component {
 				{this.state.selection ?
 				<View style={styles.header}>
 					<Appbar.Action icon="keyboard-backspace" color='white' onPress={this.resetSelection} />
-					<Appbar.Content />
+					<Appbar.Content title='Select your files' />
 					<Appbar.Action disabled={disableDelete} icon="delete" color='white' onPress={this.deleteItem} />
 				</View> :
 				<View style={styles.header}>
 					<Image source={logo} style={styles.logo} />
 					<Appbar.Content title="PEyes" subtitle="CS Zone" color='white' />
 
-					<Appbar.Action icon="magnify" color='white' onPress={() => {}} />
+					{this.state.searching ?
+						<Searchbar style={styles.searchbar}
+							onBlur={this.toggleSearch}
+							onChangeText={query => this.setState({ query })}
+							value={this.state.query}
+							/> :
+						<Appbar.Action icon="magnify" color='white' onPress={this.toggleSearch} />
+					}
 					<Appbar.Action icon={MORE_ICON} color='white' onPress={() => {}} />
 				</View>
 				}
