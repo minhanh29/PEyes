@@ -3,6 +3,11 @@ Author: *Minh Anh Nguyen*
 A React Native project that perfroms text detection on images using Cloud Vision API. 
 
 ## Installation
+### For Testing
+Download and install the **peyes.apk** file in the **release** directory on your android.
+(Remember to enable allowing install from unknown sources)  
+
+### For Developing
 1. Clone the project
 
 ```
