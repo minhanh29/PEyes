@@ -3,6 +3,12 @@ import firestore from '@react-native-firebase/firestore'
 import { Alert } from 'react-native'
 
 export const LOADING = 'LOADING'
+export const CURRENT_DOC = 'CURRENT_DOC'
+
+export const createDoc = (payload) => ({
+	type: CURRENT_DOC,
+	payload,
+})
 
 export const logIn = ({ username, password }) => (dispatch, getState, getFirebase) => {
 	// if (email ===  'minhanh29' && password === '2910sofl')
@@ -155,4 +161,10 @@ export const reauthenticate = (currentPassword) => (dispatch, getState, getFireb
 	var user = auth().currentUser;
 	var cred = getFirebase().auth.EmailAuthProvider.credential(user.email, currentPassword);
 	return user.reauthenticateWithCredential(cred);
+}
+
+// change email
+export const changeEmail = (email, id) => (dispatch, getState, getFirebase) => {
+	firestore().collection('users')
+		.doc(id).update({ email })
 }

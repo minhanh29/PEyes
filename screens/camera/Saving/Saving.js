@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ImageBackground, Alert } from 'react-native';
-import { Document, Packer, Paragraph, TextRun } from 'docx';
-import { writeFile, mkdir, DocumentDirectoryPath } from 'react-native-fs';
+import { Document, Packer, Paragraph, TextRun, Media, ImageRun } from 'docx';
+import { writeFile, mkdir, DocumentDirectoryPath, readFile } from 'react-native-fs';
 import { connect } from 'react-redux';
+import { compose } from 'redux'
+import { firestoreConnect } from 'react-redux-firebase'
 import Mailer from 'react-native-mail';
 import { Checkbox, TextInput, Button } from 'react-native-paper'
 import { HeaderBackButton } from '@react-navigation/stack'
@@ -17,17 +19,24 @@ class Saving extends Component {
 	constructor(props)
 	{
 		super(props)
-		const isUpdate = props.route.params.isUpdate
+		const isUpdate = props.isUpdate
+
+		// receive email from firestore
+		const user = this.props.user;
+		let email = ''
+		if (user)
+			email = user[0].email
+
 		this.state = {
 			isUpdate,
-			id: props.route.params.id,
-			title: isUpdate ? props.route.params.title : 'PEyes-' + Date.now(),
-			content: props.route.params.content,
+			id: props.id,
+			title: isUpdate ? props.title : 'PEyes-' + Date.now(),
+			content: props.content,
 			isMailing: false,
 			onGallery: false,
 			isPDF: false,
 			isAttach: false,
-			email: '',
+			email,
 		}
 	}
 
@@ -52,6 +61,16 @@ class Saving extends Component {
 		}
 	}
 
+	base64ToArrayBuffer = (base64) => {
+		var binary_string = global.atob(base64);
+		var len = binary_string.length;
+		var bytes = new Uint8Array(len);
+		for (var i = 0; i < len; i++) {
+			bytes[i] = binary_string.charCodeAt(i);
+		}
+		return bytes.buffer;
+	}
+
 	// send email
 	sendDoc = async () => {
 		const doc = new Document();
@@ -70,6 +89,20 @@ class Saving extends Component {
 				})
 			]
 		})
+
+		if (this.state.isAttach)
+		{
+			const w = this.props.img.width
+			const h = this.props.img.height * 600 / w
+			const img = Media.addImage(doc, this.base64ToArrayBuffer(this.props.img.data), 600, h)
+			doc.addSection({
+				children:[
+					new Paragraph({
+						children: [ img ]
+					})
+				]
+			})
+		}
 
 		try {
 			// write text to Word
@@ -189,15 +222,6 @@ class Saving extends Component {
 						<Text style={styles.checkBoxText}>Save on Gallery</Text>
 					</View>
 
-					<View style={styles.checkBoxContainer}>
-						<Checkbox
-							status={this.state.isPDF ? 'checked' : 'unchecked'}
-							onPress={() => this.setState({ isPDF: !this.state.isPDF })}
-							color='#eba400'
-						/>
-						<Text style={styles.checkBoxText}>Save as PDF (Word by default)</Text>
-					</View>
-
 					{this.state.isUpdate ?
 						<View></View> :
 						<View style={styles.checkBoxContainer}>
@@ -227,6 +251,12 @@ class Saving extends Component {
 
 const mapStateToProps = (state) => ({
 	uid: state.firebase.auth.uid,
+	user: state.firestore.ordered.users,
+	id: state.doc.id,
+	title: state.doc.title,
+	isUpdate: state.doc.isUpdate,
+	img: state.doc.img,
+	content: state.doc.content,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -234,4 +264,14 @@ const mapDispatchToProps = (dispatch) => ({
 	updateDoc: (item) => dispatch(updateDoc(item)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Saving)
+export default compose(
+	firestoreConnect((props) => {
+		return [
+		{
+			collection: 'users',
+			doc: `${props.firebase._.authUid}`,
+		}
+	]
+	}),
+	connect(mapStateToProps, mapDispatchToProps)
+)(Saving)

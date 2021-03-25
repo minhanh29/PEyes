@@ -141,4 +141,3 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangePass)
-// export default ChangePass

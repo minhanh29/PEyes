@@ -5,26 +5,64 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Appbar } from 'react-native-paper'
 
+import { createDoc } from '../../redux/actionCreators'
+
 import Card from './Card'
 import styles from './GalleryStyles'
 import logo from '../../res/logoWhite.png'
 
 class Gallery extends Component {
+	state = {
+		selection: false,
+		isDeleted: false,
+		selectCount: 0,
+	}
+
+	toggleSelection = () => {
+		this.setState(prev => ({
+			selection: !prev.selection,
+		}))
+	}
+
+	selectItem = () => {
+		const count = this.state.selectCount + 1;
+		this.setState({
+			selectCount: count,
+		})
+	}
+
+	deselectItem = () => {
+		const count = this.state.selectCount - 1;
+		this.setState({
+			selectCount: count,
+		})
+	}
+
+	deleteItem = () => {
+		this.setState({ isDeleted: true })
+	}
+
 	renderItem = ({ item }) => (
-		<Card {...item} />
+		<Card {...item}
+			selection={this.state.selection}
+			isDeleted={this.state.isDeleted}
+			toggleSelect={this.toggleSelection}
+			select={this.selectItem}
+			deselect={this.deselectItem}
+		/>
 	)
 
 	goToPreview = (id) => {
 		try {
 			// get the doc content with its id  (not uid)
-			const doc = this.props.docs.filter(doc => doc.id == id).pop()
-			console.log("Doc", doc)
-			this.props.navigation.navigate('Preview', {
+			const doc = this.props.docs.filter(doc => doc.id === id).pop()
+			this.props.createDoc({
 				id,
 				isUpdate: true,
 				title: doc.title,
-				process: { text: doc.content }
+				process: { text: doc.content },
 			})
+			this.props.navigation.navigate('Preview')
 		} catch (e) {
 			Alert.alert("Error", e.message)
 		}
@@ -32,7 +70,6 @@ class Gallery extends Component {
 
 	render() {
 		const { docs } = this.props;
-		console.log("Firestore Doc", docs)
 		const data = docs ? docs.map(doc => ({
 			id: doc.id,
 			title: doc.title,
@@ -42,8 +79,16 @@ class Gallery extends Component {
 
 		const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
+		// detetion
+		const disableDelete = this.state.selectCount <= 0;
+
 		return (
 			<View style={styles.container}>
+				{this.state.selection ?
+				<View style={styles.header}>
+					<Appbar.Content />
+					<Appbar.Action disabled={disableDelete} icon="delete" color='white' onPress={() => {}} />
+				</View> :
 				<View style={styles.header}>
 					<Image source={logo} style={styles.logo} />
 					<Appbar.Content title="PEyes" subtitle="CS Zone" color='white' />
@@ -51,6 +96,7 @@ class Gallery extends Component {
 					<Appbar.Action icon="magnify" color='white' onPress={() => {}} />
 					<Appbar.Action icon={MORE_ICON} color='white' onPress={() => {}} />
 				</View>
+				}
 
 				<FlatList
 					data={data}
@@ -68,6 +114,10 @@ const mapStateToProps = (state) => ({
 	uid: state.firebase.auth.uid,
 })
 
+const mapDispatchToProps = (dispatch) => ({
+	createDoc: payload => dispatch(createDoc(payload)),
+})
+
 export default compose(
 	firestoreConnect((props) => {
 		return [
@@ -77,5 +127,5 @@ export default compose(
 		}
 	]
 	}),
-	connect(mapStateToProps)
+	connect(mapStateToProps, mapDispatchToProps)
 )(Gallery)

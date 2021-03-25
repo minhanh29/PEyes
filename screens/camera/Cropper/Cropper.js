@@ -5,7 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { StackActions } from '@react-navigation/native'
 
 import Loading from '../../Loading'
-import { loading } from '../../../redux/actionCreators'
+import { loading, createDoc } from '../../../redux/actionCreators'
 import { processImg } from '../../api/TextRecognition'
 
 
@@ -31,8 +31,9 @@ class Cropper extends Component {
 	}
 
 	// use the api to get image and move to the next screen
-	convertImg = async (path) => {
+	convertImg = async (image) => {
 		this.props.startLoading()
+		const path = image.path
 		if (!path)
 		{
 			Alert.alert("Access Error", "Cannot access your image!")
@@ -58,7 +59,12 @@ class Cropper extends Component {
 			await this.props.navigation.dispatch(popAction)
 
 			// move to preview screen
-			this.props.navigation.navigate('Preview', { process, isUpdate: false })
+			this.props.createDoc({
+				img: image,
+				process,
+				isUpdate: false,
+			})
+			this.props.navigation.navigate('Preview') //, { path, process, isUpdate: false })
 		} catch (e) {
 			console.log(e);
 			Alert.alert(e.message ? e.message : e);
@@ -71,10 +77,11 @@ class Cropper extends Component {
 			const image = await ImagePicker.openCropper({
 				path: path,
 				freeStyleCropEnabled: true,
+				includeBase64: true,
 			})
 
 			// convert image to text
-			this.convertImg(image.path)
+			this.convertImg(image)
 
 		} catch (error) {
 			this.props.navigation.navigate('Capture')
@@ -85,12 +92,13 @@ class Cropper extends Component {
 		try {
 			const image = await ImagePicker.openPicker({
 				cropping: true,
+				includeBase64: true,
 				freeStyleCropEnabled: true,
 				sortOrder: 'none',
 			})
 
 			// convert image to text
-			this.convertImg(image.path)
+			this.convertImg(image)
 		} catch (e) {
 			this.props.navigation.navigate('Capture')
 		}
@@ -118,6 +126,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 	startLoading: () => dispatch(loading(true)),
 	stopLoading: () => dispatch(loading(false)),
+	createDoc: payload => dispatch(createDoc(payload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cropper)

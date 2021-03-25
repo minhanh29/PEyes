@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
@@ -39,20 +39,33 @@ const Dashboard = () => {
 			<Tab.Screen
 				name="Capture"
 				component={Capture}
-				options={{title: 'Camera'}}
+				options={{
+					tabBarLabel: ({ focused }) => focused ? <Text style={style.text}>Camera</Text> : null
+				}}
 			/>
 			<Tab.Screen
 				name="Gallery"
 				component={Gallery}
-				options={{title: 'Gallery'}}
+				options={{
+					tabBarLabel: ({ focused }) => focused ? <Text style={style.text}>Gallery</Text> : null
+				}}
 			/>
 			<Tab.Screen
 				name="Account"
 				component={Account}
-				options={{title: 'Account'}}
+				options={{
+					tabBarLabel: ({ focused }) => focused ? <Text style={style.text}>Account</Text> : null
+				}}
 			/>
 		</Tab.Navigator>
 	)
 }
+
+const style = StyleSheet.create({
+	text: {
+		color: 'rgba(255, 194, 57, 1)',
+		fontSize: 12,
+	}
+})
 
 export default Dashboard

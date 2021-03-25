@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Text, TextInput, TouchableOpacity } from 'react-native'
-import { HeaderBackButton } from '@react-navigation/stack'
+import { ScrollView, TextInput } from 'react-native'
+import  { connect } from 'react-redux'
 import { Button } from 'react-native-paper'
 
+import { createDoc } from '../../../redux/actionCreators'
 import styles from './PreviewStyles'
 
 class Preview extends Component {
@@ -10,7 +11,7 @@ class Preview extends Component {
 		super(props)
 
 		// get text from Capture screen
-		const process = props.route.params.process;
+		const process = props.process;
 		this.state = {
 			text: process ? process.text : "No Text Found",
 			setOp: false, // check setting naviatgion
@@ -43,12 +44,16 @@ class Preview extends Component {
 			return
 
 		// move to saving screen
-		this.props.navigation.navigate('Saving', {
-			id: this.props.route.params.id,
-			isUpdate: this.props.route.params.isUpdate,
-			title: this.props.route.params.title,
+		this.props.createDoc({
 			content: this.state.text,
 		})
+		this.props.navigation.navigate('Saving')
+			// id: this.props.id,
+			// isUpdate: this.props.isUpdate,
+			// title: this.props.title,
+			// content: this.state.text,
+			// imgPath: this.props.imgPath,
+		// })
 	}
 
 	render() {
@@ -67,4 +72,12 @@ class Preview extends Component {
 	}
 }
 
-export default Preview
+const mapStateToProps = (state) => ({
+	process: state.doc.process
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	createDoc: payload => dispatch(createDoc(payload)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Preview)

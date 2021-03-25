@@ -10,6 +10,11 @@ import firestore from '@react-native-firebase/firestore'
 import MainNavigator from './screens/MainNavigator'
 
 import rootReducer from './redux/reducers/rootReducer'
+import {decode, encode} from 'base-64'
+
+if (!global.btoa) {  global.btoa = encode }
+
+if (!global.atob) { global.atob = decode }
 
 firestore()
 
