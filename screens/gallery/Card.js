@@ -11,9 +11,13 @@ class Card extends Component {
 		isChecked: false,
 	}
 
-	componentDidMount() {
+	componentDidUpdate() {
 		if (!this.props.selection && this.state.isChecked)
 			this.setState({isChecked: false})
+		if (this.props.isDeleted && this.state.isChecked)
+		{
+			this.props.deleteMe(this.props.id)
+		}
 	}
 
 	openFile = async () => {
@@ -35,9 +39,12 @@ class Card extends Component {
 	}
 
 	toggleSelect = () => {
-		if (!this.props.selection)
-			this.setState({isChecked: true})
 		this.props.toggleSelect()
+		if (this.props.selection)
+		{
+			this.setState({isChecked: true})
+			this.props.select()
+		}
 	}
 
 	render() {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, FlatList, Alert, Text, Image } from 'react-native'
 import { firestoreConnect } from 'react-redux-firebase'
+import firestore from '@react-native-firebase/firestore'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Appbar } from 'react-native-paper'
@@ -33,13 +34,33 @@ class Gallery extends Component {
 
 	deselectItem = () => {
 		const count = this.state.selectCount - 1;
+		if (count === 0)
+			this.resetSelection()
+		else
+			this.setState({ selectCount: count })
+	}
+
+	resetSelection = () => {
 		this.setState({
-			selectCount: count,
+			selection: false,
+			isDeleted: false,
+			selectCount: 0,
 		})
 	}
 
 	deleteItem = () => {
 		this.setState({ isDeleted: true })
+	}
+
+	deleteMe = (id) => {
+		firestore()
+			.collection('docs')
+			.doc(id)
+			.delete()
+			.then(() => {
+				this.deselectItem()
+				console.log("Item deleted")
+			})
 	}
 
 	renderItem = ({ item }) => (
@@ -49,6 +70,7 @@ class Gallery extends Component {
 			toggleSelect={this.toggleSelection}
 			select={this.selectItem}
 			deselect={this.deselectItem}
+			deleteMe={this.deleteMe}
 		/>
 	)
 
@@ -80,14 +102,16 @@ class Gallery extends Component {
 		const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
 		// detetion
-		const disableDelete = this.state.selectCount <= 0;
+		const disableDelete = this.state.selectCount === 0;
+		console.log("count", this.state.selectCount)
 
 		return (
 			<View style={styles.container}>
 				{this.state.selection ?
 				<View style={styles.header}>
+					<Appbar.Action icon="keyboard-backspace" color='white' onPress={this.resetSelection} />
 					<Appbar.Content />
-					<Appbar.Action disabled={disableDelete} icon="delete" color='white' onPress={() => {}} />
+					<Appbar.Action disabled={disableDelete} icon="delete" color='white' onPress={this.deleteItem} />
 				</View> :
 				<View style={styles.header}>
 					<Image source={logo} style={styles.logo} />
