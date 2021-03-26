@@ -4,8 +4,10 @@ A React Native project that perfroms text detection on images using Cloud Vision
 
 ## Installation
 ### For Testing
-Download and install the **peyes.apk** file in the **release** directory on your android.
+1. **For Android**: Download and install the **peyes.apk** file in the **release** directory on your android.
 (Remember to enable allowing install from unknown sources)  
+
+2. **For IOS**: Not yet available.
 
 ### For Developing
 1. Clone the project
