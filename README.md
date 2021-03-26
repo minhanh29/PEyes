@@ -50,8 +50,9 @@ The Word document can be sent to your registed email so that you can download it
 <img src="screenshots/saving.png" alt="saving" width='292' />
 
 ### Document Management
-PEyes allows you to store, search, and delete documents.
+PEyes allows you to store, search, and delete documents.  
 <img src="screenshots/gallery.png" alt="gallery" width='350'/>
+<img src="screenshots/selection.png" alt="selection" width='350'/>
 
 ### Account Updating
 Update your default email (to which the document is sent) and passwords anytime
