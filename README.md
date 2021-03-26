@@ -44,10 +44,16 @@ The captured or chosen image can be cropped, rotated, or scaled to give better t
 <img src="screenshots/crop.png" alt="crop" width='300'/>
 
 ### Editing and Saving
-The generated text can be manually editted and saved as a Word Document  
+The generated text can be manually editted and saved as a Word Document.  
+The Word document can be sent to your registed email so that you can download it frorm your PC.  
 <img src="screenshots/edit.png" alt="edit" width='300' />
 <img src="screenshots/saving.png" alt="saving" width='292' />
 
-### Email Sending
-The Word document can be sent to your registed email so that you can download it frorm your PC.
-<img src="screenshots/email.png" alt="email" width='350'/>
+### Document Management
+PEyes allows you to store, search, and delete documents.
+<img src="screenshots/gallery.png" alt="gallery" width='350'/>
+
+### Account Updating
+Update your default email (to which the document is sent) and passwords anytime
+<img src="screenshots/email.png" alt="email" width='300' />
+<img src="screenshots/password.png" alt="password" width='300' />
